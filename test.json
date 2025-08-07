@@ -26,6 +26,19 @@
         "gtfull.png",        
       ],
       "tags":"appar,sundharar,vibhuthi"
+    }   ,
+      {
+      "slug": "mobile app",
+      "type": "static",
+      "title": "Nithya Dharma Puja Products",
+      "date": "2025-07-15",
+          "content": "Serene evening filled with chants and lamps.", 
+  "images": [
+        "gopuram.png",
+        "greentara.jpg",
+        "gtfull.png",        
+      ],
+      "tags":"appar,sundharar,vibhuthi"
     }   
   ]
 }
