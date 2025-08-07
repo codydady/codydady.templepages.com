@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My GitHub Pages Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-lg shadow-xl max-w-4xl w-full">
+        <h1 class="text-3xl font-bold mb-4 text-center text-gray-800" id="page-title">Loading...</h1>
+        <div class="space-y-4">
+            <p id="post-date" class="text-center text-gray-500 text-sm"></p>
+            <div id="content-container" class="text-gray-700 leading-relaxed">
+                <p>Loading content...</p>
+            </div>
+            
+            <!-- Image gallery container -->
+            <div id="image-gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
+                <!-- Images from the JSON will be injected here -->
+            </div>
+
+            <!-- Tags container -->
+            <div id="tags-container" class="flex flex-wrap gap-2 mt-4">
+                <!-- Tags from the JSON will be injected here -->
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // This code fetches the structured JSON data and populates the page with the first post's content.
+        // It's designed to work with the data structure you provided.
+
+        // --- Asynchronous function to fetch and populate content from a JSON file ---
+        async function loadContent() {
+            try {
+                // Fetch the JSON data from a file in the same directory.
+                const response = await fetch('test.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                // Check if the posts array exists and has at least one post.
+                if (!data.posts || data.posts.length === 0) {
+                    throw new Error("No posts found in data.json.");
+                }
+
+                // For this example, we will display the first post in the array.
+                const post = data.posts[0];
+
+                // Get the elements where the content will be displayed.
+                const titleElement = document.getElementById('page-title');
+                const dateElement = document.getElementById('post-date');
+                const contentContainer = document.getElementById('content-container');
+                const imageGallery = document.getElementById('image-gallery');
+                const tagsContainer = document.getElementById('tags-container');
+
+                // Populate the page with data from the selected post.
+                titleElement.textContent = post.title;
+                dateElement.textContent = new Date(post.date).toLocaleDateString();
+                contentContainer.textContent = post.content;
+
+                // Loop through the images array and create an <img> element for each.
+                if (post.images && post.images.length > 0) {
+                    imageGallery.innerHTML = ''; // Clear any existing content
+                    post.images.forEach(imageName => {
+                        const img = document.createElement('img');
+                        // Construct the image path relative to the current page.
+                        img.src = `testimgs/${imageName}`;
+                        img.alt = `Image for ${post.title}`;
+                        img.classList.add('rounded-lg', 'shadow-md', 'object-cover', 'w-full');
+                        img.onerror = () => {
+                            console.error(`Failed to load image: ${img.src}`);
+                            img.src = 'https://placehold.co/600x400/ef4444/fff?text=Image+Not+Found';
+                        };
+                        imageGallery.appendChild(img);
+                    });
+                } else {
+                    imageGallery.innerHTML = '<p class="text-center text-gray-500 col-span-full">No images available.</p>';
+                }
+
+                // Display the tags.
+                if (post.tags) {
+                    post.tags.split(',').forEach(tagText => {
+                        const tag = document.createElement('span');
+                        tag.textContent = `#${tagText.trim()}`;
+                        tag.classList.add('bg-blue-100', 'text-blue-800', 'text-xs', 'font-medium', 'px-2.5', 'py-0.5', 'rounded-full');
+                        tagsContainer.appendChild(tag);
+                    });
+                }
+
+            } catch (error) {
+                console.error('There was an error loading the page content:', error);
+                const mainContainer = document.querySelector('.bg-white');
+                mainContainer.innerHTML = '<h1 class="text-3xl font-bold mb-4 text-center text-red-600">Error</h1><p class="text-center text-red-500">Failed to load content from data.json. Please check your files and format.</p>';
+            }
+        }
+
+        // Call the function to load the content when the page is ready.
+        document.addEventListener('DOMContentLoaded', loadContent);
+
+    </script>
+</body>
+</html>

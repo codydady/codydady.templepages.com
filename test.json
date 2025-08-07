@@ -1,0 +1,32 @@
+
+{
+  "posts": [
+    {
+      "slug": "sugnadhakundhalambigai-sametha-nethrarpaneswarar-temple-thiruveezhimizhalai",
+      "type": "posts",
+      "title": "sugnadhakundhalambigai sametha nethrarpaneswarar temple,thiruveezhimizhalai",
+      "date": "2025-07-28",
+      "content": "Serene evening filled with chants and lamps.", 
+      "images": [
+        "gopuram.png",
+        "greentara.jpg",
+        "gtfull.png",        
+      ],
+      "tags":"appar,sundharar,thiruveezhimizhalai"
+    },
+    {
+      "slug": "nithyadharma-puja-products",
+      "type": "static",
+      "title": "Nithya Dharma Puja Products",
+      "date": "2025-07-15",
+          "content": "Serene evening filled with chants and lamps.", 
+  "images": [
+        "gopuram.png",
+        "greentara.jpg",
+        "gtfull.png",        
+      ],
+      "tags":"appar,sundharar,vibhuthi"
+    },    
+    
+  ]
+}
