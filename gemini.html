@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Treasures of India - Spiritual Blog</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for Dynamic Blog */
+
+        /* Theme Variables */
+        :root {
+            --theme-bg: var(--bs-dark);
+            --theme-bg-secondary: var(--bs-dark);
+            --theme-card-bg: var(--bs-dark);
+            --theme-text: var(--bs-light);
+            --theme-text-muted: var(--bs-secondary);
+            --theme-border: rgba(255, 255, 255, 0.1);
+            --theme-overlay: rgba(0, 0, 0, 0.7);
+            --theme-gradient: linear-gradient(135deg, var(--bs-dark) 0%, #1a1a2e 50%, var(--bs-dark) 100%);
+        }
+
+        /* Light/Ivory Theme */
+        [data-theme="light"] {
+            --theme-bg: #f8f6f0;
+            --theme-bg-secondary: #ede8dc;
+            --theme-card-bg: #ffffff;
+            --theme-text: #2c3e50;
+            --theme-text-muted: #6c757d;
+            --theme-border: rgba(0, 0, 0, 0.1);
+            --theme-overlay: rgba(255, 255, 255, 0.9);
+            --theme-gradient: linear-gradient(135deg, #f8f6f0 0%, #ede8dc 50%, #f8f6f0 100%);
+        }
+
+        [data-theme="light"] .navbar-dark {
+            background-color: var(--theme-bg-secondary) !important;
+            border-bottom: 1px solid var(--theme-border);
+        }
+
+        [data-theme="light"] .navbar-dark .navbar-brand,
+        [data-theme="light"] .navbar-dark .nav-link {
+            color: var(--theme-text) !important;
+        }
+
+        [data-theme="light"] .navbar-dark .navbar-toggler {
+            border-color: var(--theme-border);
+        }
+
+        [data-theme="light"] .dropdown-menu {
+            background-color: var(--theme-card-bg);
+            border-color: var(--theme-border);
+        }
+
+        [data-theme="light"] .dropdown-item {
+            color: var(--theme-text);
+        }
+
+        [data-theme="light"] .dropdown-item:hover {
+            background-color: var(--theme-bg);
+        }
+
+        /* Enhanced logo styling */
+        .navbar-brand {
+            font-size: 1.25rem !important;
+            font-weight: 700 !important;
+        }
+
+        .logo-gem {
+            color: #ffc107 !important;
+            font-size: 1.8rem !important;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+        }
+
+        /* No-scroll viewport layout */
+        .no-scroll {
+            height: 100vh;
+            overflow: hidden;
+            background: var(--theme-gradient);
+            color: var(--theme-text);
+        }
+
+        /* Main viewport container */
+        .main-viewport {
+            height: calc(100vh - 56px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Posts grid container */
+        .posts-grid {
+            flex: 1;
+            padding: 1rem 0;
+            overflow: hidden;
+        }
+
+        /* Viewport post cards */
+        .viewport-post-card {
+            background: var(--theme-card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--theme-border);
+            position: relative;
+            height: 100%;
+            min-height: 280px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .viewport-post-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .viewport-post-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: var(--bs-primary);
+            z-index: 10;
+        }
+
+        /* Card image */
+        .card-image {
+            position: relative;
+            height: 140px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .viewport-post-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        /* Card overlay */
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--theme-overlay);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .viewport-post-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-overlay i {
+            color: var(--bs-primary);
+            font-size: 1.5rem;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .viewport-post-card:hover .card-overlay i {
+            transform: scale(1.2);
+        }
+
+        /* Card content */
+        .card-content {
+            padding: 1rem;
+            height: calc(100% - 140px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--bs-secondary);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            color: var(--theme-text);
+            transition: color 0.3s ease;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .viewport-post-card:hover .card-title {
+            color: var(--bs-primary);
+        }
+
+        .card-excerpt {
+            color: var(--theme-text-muted);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: auto;
+        }
+
+        .tag {
+            background: rgba(var(--bs-primary-rgb), 0.2);
+            color: var(--bs-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
+
+        /* Responsive adjustments for 2+3 grid */
+        @media (min-width: 768px) {
+            .row-2-posts .col-md-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+            
+            .row-3-posts .col-md-4 {
+                flex: 0 0 33.333%;
+                max-width: 33.333%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-viewport {
+                height: calc(100vh - 56px);
+            }
+            
+            .viewport-post-card {
+                min-height: 240px;
+                margin-bottom: 1rem;
+            }
+            
+            .card-image {
+                height: 120px;
+            }
+            
+            .card-content {
+                height: calc(100% - 120px);
+                padding: 0.75rem;
+            }
+
+            /* Mobile navbar adjustments */
+            .navbar-brand {
+                font-size: 1rem !important;
+            }
+            
+            .logo-gem {
+                font-size: 1.4rem !important;
+            }
+            
+            /* Hide button text on very small screens */
+            @media (max-width: 576px) {
+                .btn-text {
+                    display: none;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="no-scroll">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid px-4">
+            <!-- Logo and Brand -->
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="/" style="text-decoration: none;">
+                <i class="fas fa-gem me-2 logo-gem"></i>
+                <span>Discover Treasures of India</span>
+            </a>
+            
+            <!-- Right side controls -->
+            <div class="d-flex align-items-center">
+                <!-- Theme and Refresh buttons -->
+                <button class="btn btn-outline-secondary me-2" id="themeToggle">
+                    <i class="fas fa-sun me-2"></i>
+                    <span class="btn-text" id="themeText">Light Theme</span>
+                </button>
+                <button class="btn btn-outline-primary me-3" onclick="refreshPosts()">
+                    <i class="fas fa-refresh me-2"></i>
+                    <span class="btn-text">Refresh</span>
+                </button>
+                
+                <!-- Hamburger Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto" id="dynamicNav">
+                    <!-- Dynamic navigation items will be inserted here -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Viewport Container -->
+    <div class="main-viewport">
+        <!-- Posts Grid -->
+        <div class="posts-grid">
+            <div class="container-fluid px-4 h-100">
+                <div id="postsContainer" class="h-100">
+                    <!-- Posts will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Spiritual posts data
+        const POSTS_DATA = [
+            {
+                slug: "sacred-temple-rituals",
+                type: "posts",
+                title: "Sacred Temple Rituals and Their Deep Meanings",
+                excerpt: "Discover the profound significance behind ancient temple rituals and how they connect us to the divine.",
+                content: "Temple rituals have been the cornerstone of spiritual practice for millennia...",
+                author: "Guru Anandamaya",
+                date: "2025-07-30",
+                images: ["https://images.unsplash.com/photo-1564769625905-50e93615e769?w=400&h=300&fit=crop"],
+                tags: ["temples", "rituals", "spirituality"]
+            },
+            {
+                slug: "puja-essentials-guide",
+                type: "posts",
+                title: "Essential Puja Products for Your Home Temple",
+                excerpt: "A comprehensive guide to setting up your sacred space with the right puja essentials and their significance.",
+                content: "Creating a sacred space at home requires careful selection of puja items...",
+                author: "Pandit Raghavan",
+                date: "2025-07-29",
+                images: ["https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop"],
+                tags: ["puja", "home temple", "products"]
+            },
+            {
+                slug: "nithyadharma-mobile-app",
+                type: "posts",
+                title: "Nithyadharma Mobile App: Your Pocket Temple",
+                excerpt: "Experience divine connectivity with our comprehensive spiritual mobile application featuring daily prayers and guidance.",
+                content: "The Nithyadharma mobile app brings the essence of temple worship to your fingertips...",
+                author: "Tech Team",
+                date: "2025-07-28",
+                images: ["https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop"],
+                tags: ["mobile app", "technology", "prayers"]
+            },
+            {
+                slug: "about",
+                type: "static",
+                title: "About Our Spiritual Journey",
+                excerpt: "Learn more about our mission to bring spiritual wisdom and practices to the modern world.",
+                content: "Our spiritual journey began with a simple vision...",
+                author: "The Team",
+                date: "2025-07-30",
+                images: ["https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"],
+                tags: ["about", "mission", "spiritual"]
+            },
+            {
+                slug: "contact",
+                type: "static", 
+                title: "Connect With Us",
+                excerpt: "Get in touch with our spiritual community and join us on this transformative journey.",
+                content: "We welcome you to connect with our community...",
+                author: "Community Team",
+                date: "2025-07-30",
+                images: ["https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=400&h=300&fit=crop"],
+                tags: ["contact", "community", "connect"]
+            },
+            {
+                slug: "meditation-techniques",
+                type: "posts",
+                title: "Ancient Meditation Techniques for Modern Life",
+                excerpt: "Learn time-tested meditation practices that bring peace and clarity to your daily routine.",
+                content: "In our fast-paced world, ancient meditation techniques offer a sanctuary of calm...",
+                author: "Swami Prakashananda",
+                date: "2025-07-27",
+                images: ["https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"],
+                tags: ["meditation", "mindfulness", "peace"]
+            },
+            {
+                slug: "festival-celebrations",
+                type: "posts",
+                title: "Sacred Festival Celebrations Around the World",
+                excerpt: "Explore how different cultures celebrate spiritual festivals and their universal messages of love and unity.",
+                content: "Sacred festivals transcend geographical boundaries, uniting humanity in celebration...",
+                author: "Dr. Vasudha Narayanan",
+                date: "2025-07-26",
+                images: ["https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop"],
+                tags: ["festivals", "culture", "celebration"]
+            },
+            {
+                slug: "spiritual-healing",
+                type: "posts",
+                title: "The Power of Spiritual Healing in Daily Life",
+                excerpt: "Understanding how spiritual practices can bring healing and transformation to body, mind, and soul.",
+                content: "Spiritual healing addresses the root causes of suffering at the deepest level...",
+                author: "Healer Kamala Devi",
+                date: "2025-07-25",
+                images: ["https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=400&h=300&fit=crop"],
+                tags: ["healing", "wellness", "transformation"]
+            },
+            {
+                slug: "mantra-chanting",
+                type: "posts",
+                title: "Sacred Mantras: Vibrations That Transform",
+                excerpt: "Learn about powerful mantras and how their vibrations can elevate consciousness and bring inner peace.",
+                content: "Mantras are sacred sound vibrations that have the power to transform consciousness...",
+                author: "Acharya Soundarya",
+                date: "2025-07-24",
+                images: ["https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"],
+                tags: ["mantras", "chanting", "vibrations"]
+            },
+            {
+                slug: "yoga-philosophy",
+                type: "posts",
+                title: "The Philosophy Behind Yoga Practice",
+                excerpt: "Delve deep into the philosophical foundations of yoga and how they guide us toward self-realization.",
+                content: "Yoga is far more than physical postures; it's a complete philosophy of life...",
+                author: "Yogacharya Bharati",
+                date: "2025-07-23",
+                images: ["https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop"],
+                tags: ["yoga", "philosophy", "self-realization"]
+            }
+        ];
+
+        // Helper function to format date as "20 March,25"
+        function formatPostDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const month = date.toLocaleString('en-US', { month: 'long' });
+            const year = date.getFullYear().toString().slice(-2);
+            return `${day} ${month},${year}`;
+        }
+
+        // Get the top 5 latest posts (type='posts')
+        function getLatestPosts() {
+            return POSTS_DATA.filter(post => post.type === 'posts')
+                             .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort descending by date
+                             .slice(0, 5); // Take top 5
+        }
+
+        // Get 4 other random posts, excluding the latest ones
+        function getOtherRandomPosts(excludedSlugs) {
+            const postsOnly = POSTS_DATA.filter(post => post.type === 'posts' && !excludedSlugs.includes(post.slug));
+            const shuffled = [...postsOnly].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, 4); // Take 4 other random posts
+        }
+
+        // Generate dynamic navigation from static posts
+        function generateNavigation() {
+            const staticPosts = POSTS_DATA.filter(post => post.type === 'static');
+            const navContainer = document.getElementById('dynamicNav');
+            
+            let navHTML = '<li class="nav-item"><a class="nav-link active" href="/"><i class="fas fa-home me-1"></i>Home</a></li>';
+            
+            staticPosts.forEach(post => {
+                const icon = post.slug === 'about' ? 'info-circle' : 'envelope';
+                navHTML += `<li class="nav-item"><a class="nav-link" href="/${post.slug}"><i class="fas fa-${icon} me-1"></i>${post.title}</a></li>`;
+            });
+            
+            navContainer.innerHTML = navHTML;
+        }
+
+        // Create post card HTML (updated to use formatPostDate)
+        function createPostCard(post) {
+            return `
+                <article class="viewport-post-card h-100" onclick="window.location.href='${post.slug}/'">
+                    <div class="card-image">
+                        <img src="${post.images[0]}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/343a40/ffffff?text=Image+Error';" alt="${post.title}" class="img-fluid">
+                        <div class="card-overlay">
+                            <i class="fas fa-external-link-alt"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span class="author">${post.author}</span>
+                            <span class="date">${formatPostDate(post.date)}</span>
+                        </div>
+                        <h3 class="card-title">${post.title}</h3>
+                        <p class="card-excerpt">${post.excerpt}</p>
+                        <div class="card-tags">
+                            ${post.tags.slice(0, 3).map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        // Display posts in 2+3 grid layout
+        function displayPosts() {
+            const latestPosts = getLatestPosts();
+            const latestPostSlugs = latestPosts.map(p => p.slug);
+            const otherPosts = getOtherRandomPosts(latestPostSlugs);
+
+            const container = document.getElementById('postsContainer');
+            let gridHTML = '';
+
+            // First row: Latest News box + 1 random post
+            gridHTML += `
+                <div class="row row-2-posts g-3 mb-3" style="height: 48%;">
+                    <div class="col-md-6">
+                        <div class="viewport-post-card h-100 p-4">
+                            <h3 class="card-title mb-3 text-primary">Latest News</h3>
+                            <ul class="list-unstyled mb-0">
+                                ${latestPosts.map(post => `
+                                    <li class="mb-2">
+                                        <small class="text-muted">${formatPostDate(post.date)}</small><br>
+                                        <a href="${post.slug}/" class="text-decoration-none" style="color: var(--theme-text); font-weight: 600;">${post.title}</a>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        ${createPostCard(otherPosts[0])}
+                    </div>
+                </div>
+            `;
+
+            // Second row: Remaining 3 random posts
+            gridHTML += `
+                <div class="row row-3-posts g-3" style="height: 48%;">
+                    <div class="col-md-4">
+                        ${createPostCard(otherPosts[1])}
+                    </div>
+                    <div class="col-md-4">
+                        ${createPostCard(otherPosts[2])}
+                    </div>
+                    <div class="col-md-4">
+                        ${createPostCard(otherPosts[3])}
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = gridHTML;
+            
+            // Initialize card interactions for all new cards
+            initializePostCards();
+        }
+
+        // Refresh posts function
+        function refreshPosts() {
+            // Add loading effect
+            const container = document.getElementById('postsContainer');
+            container.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                displayPosts();
+                container.style.opacity = '1';
+            }, 300);
+        }
+
+        // Initialize post card interactions
+        function initializePostCards() {
+            const postCards = document.querySelectorAll('.viewport-post-card');
+            
+            postCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px) scale(1.02)';
+                    this.style.zIndex = '10';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.zIndex = 'auto';
+                });
+            });
+        }
+
+        // Initialize theme toggle
+        function initializeThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeText = document.getElementById('themeText');
+            
+            if (!themeToggle || !themeText) return;
+            
+            // Load saved theme or default to dark
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            setTheme(savedTheme);
+            
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                setTheme(newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+            
+            function setTheme(theme) {
+                if (theme === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    themeText.textContent = 'Dark Theme';
+                    themeToggle.querySelector('i').className = 'fas fa-moon me-2';
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                    themeText.textContent = 'Light Theme';
+                    themeToggle.querySelector('i').className = 'fas fa-sun me-2';
+                }
+            }
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            generateNavigation();
+            displayPosts();
+            initializeThemeToggle();
+        });
+    </script>
+</body>
+</html>
